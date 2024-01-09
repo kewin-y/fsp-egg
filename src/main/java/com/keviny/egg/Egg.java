@@ -1,4 +1,7 @@
-// Was supposed to be called EGPI (Easy Graphics Programming Interface) but shortened to egg
+/* Kevin Yu
+ * ICS4U1
+ * EGG (Easy Graphics)
+ * */
 package com.keviny.egg;
 
 import java.io.BufferedReader;
@@ -7,17 +10,23 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
-public class Main {
+public class Egg {
   static boolean hadError = false;
 
   public static void main(String[] args) throws IOException {
-    if (args.length > 1) { // More than 1 arguments given: exit the program
+    if (args.length > 1) {
+      // More than one argument
       System.out.println("Usage: egg [script]");
-      System.exit(64); // 64 indicates improper usage
-    } else if (args.length == 1) { // 1 argument: run the program
+
+      // 64 indicates improper usage
+      System.exit(64);
+    } else if (args.length == 1) {
+      // Exactly 1 argument
       runFile(args[0]);
-    } else { // No arguments: "Shell" mode
+    } else {
+      // No arguments: "Shell" mode
       runPrompt();
     }
   }
@@ -26,7 +35,8 @@ public class Main {
     byte[] bytes = Files.readAllBytes(Paths.get(path));
     run(new String(bytes, Charset.defaultCharset()));
 
-    if (hadError) System.exit(65); // Input data is incorrect
+    // 65 signifies that the input data was incorrect in some way
+    if (hadError) System.exit(65);
   }
 
   private static void runPrompt() throws IOException {
@@ -45,7 +55,7 @@ public class Main {
   }
 
   private static void run(String source) {
-    EggScanner scanner = new EggScanner();
+    EggScanner scanner = new EggScanner(source);
     List<Token> tokens = scanner.scanTokens();
 
     for (Token token : tokens) {

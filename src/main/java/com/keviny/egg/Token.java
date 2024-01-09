@@ -2,7 +2,7 @@ package com.keviny.egg;
 
 public class Token {
   protected final TokenType type;
-  protected final String lexeme;
+  protected final String lexeme; // Raw substring that has actual meaning
   protected final Object literal;
   protected final int line;
 
