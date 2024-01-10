@@ -1,4 +1,4 @@
-package com.keviny.egg;
+package com.keviny.egg.interpreter;
 
 public class Token {
   protected final TokenType type;

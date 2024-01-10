@@ -1,4 +1,4 @@
-package com.keviny.egg;
+package com.keviny.egg.interpreter;
 
 public enum TokenType {
   // Single character

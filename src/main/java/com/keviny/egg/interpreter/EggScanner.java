@@ -1,4 +1,4 @@
-package com.keviny.egg;
+package com.keviny.egg.interpreter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -134,7 +134,7 @@ public class EggScanner {
         } else if (isAlpha(c)) {
           addIdentifierOrKeyword();
         } else {
-          Egg.error(line, "Unexpected Character");
+          EggInterpreter.error(line, "Unexpected Character");
           break;
         }
     }
@@ -193,7 +193,7 @@ public class EggScanner {
     }
 
     if (isAtEnd()) {
-      Egg.error(line, "Unterminated String");
+      EggInterpreter.error(line, "Unterminated String");
     }
 
     // Still want to advance over the closing " even though it gets by the substring

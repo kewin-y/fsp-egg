@@ -4,71 +4,11 @@
  * */
 package com.keviny.egg;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
+import com.keviny.egg.gui.EggStage;
 
 public class Egg {
-  static boolean hadError = false;
-
-  public static void main(String[] args) throws IOException {
-    if (args.length > 1) {
-      // More than one argument
-      System.out.println("Usage: egg [script]");
-
-      // 64 indicates improper usage
-      System.exit(64);
-    } else if (args.length == 1) {
-      // Exactly 1 argument
-      runFile(args[0]);
-    } else {
-      // No arguments: "Shell" mode
-      runPrompt();
-    }
-  }
-
-  private static void runFile(String path) throws IOException {
-    byte[] bytes = Files.readAllBytes(Paths.get(path));
-    run(new String(bytes, Charset.defaultCharset()));
-
-    // 65 signifies that the input data was incorrect in some way
-    if (hadError) System.exit(65);
-  }
-
-  private static void runPrompt() throws IOException {
-    InputStreamReader input = new InputStreamReader(System.in);
-    BufferedReader reader = new BufferedReader(input);
-    for (; ; ) {
-      System.out.print("> ");
-      String line = reader.readLine();
-
-      // readLine() returns null when EOF (end-of-file) signal is recieved
-      // Usually signalled when Ctrl-D is pressed
-      if (line == null) break;
-      run(line);
-      hadError = false;
-    }
-  }
-
-  private static void run(String source) {
-    EggScanner scanner = new EggScanner(source);
-    List<Token> tokens = scanner.scanTokens();
-
-    for (Token token : tokens) {
-      System.out.println(token);
-    }
-  }
-
-  static void error(int line, String message) {
-    report(line, "", message);
-  }
-
-  private static void report(int line, String where, String message) {
-    System.err.println("[line " + line + "] Error" + where + ": " + message);
-    hadError = true;
+  public static void main(String args[]) {
+    new EggStage();
+    return;
   }
 }
