@@ -51,17 +51,18 @@ public class EggStage {
        * Update
        */
       mousePosition = Jaylib.GetMousePosition();
-      
+
       // Poll buttons
       for (EggButton b : buttons) {
         b.poll(mousePosition);
       }
+
       /*
        * Draw
        */
       Jaylib.BeginDrawing();
 
-      Jaylib.ClearBackground(Jaylib.WHITE);
+      Jaylib.ClearBackground(Jaylib.RAYWHITE);
 
       // Window decoration
       exitWindow =
