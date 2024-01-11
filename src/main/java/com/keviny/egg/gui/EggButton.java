@@ -6,9 +6,9 @@ import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
 public class EggButton {
-  private static final Raylib.Color DEFAULT = new Jaylib.Color(180, 180, 180, 255);
-  private static final Raylib.Color HOVERED = new Jaylib.Color(230, 230, 230, 255);
-  private static final Raylib.Color CLICKED = Jaylib.WHITE;
+  private static final Raylib.Color DEFAULT = Jaylib.WHITE;
+  private static final Raylib.Color HOVERED = new Jaylib.Color(255, 255, 255, 180);
+  private static final Raylib.Color CLICKED = new Jaylib.Color(255, 255, 255, 120);
 
   private Raylib.Texture texture;
   private Raylib.Rectangle bounds;
@@ -49,6 +49,7 @@ public class EggButton {
   public Raylib.Texture getTexture() {
     return texture;
   }
+
   public void setTexture(Raylib.Texture texture) {
     this.texture = texture;
   }
