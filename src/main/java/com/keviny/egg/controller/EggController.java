@@ -21,4 +21,8 @@ public class EggController {
       () -> {
         System.out.println("Stop");
       };
+  public OnClickFunction handleLoadNew =
+      () -> {
+        System.out.println("Loading New");
+      };
 }

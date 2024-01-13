@@ -39,10 +39,14 @@ public class EggStage {
     EggButton stopButton = new EggButton("assets/sprites/stop.png", 672, BUTTON_Y_BOT);
     stopButton.attachFunction(controller.handleStop);
 
+    EggButton loadNewButton = new EggButton("assets/sprites/load_new.png", 576, 40);
+    loadNewButton.attachFunction(controller.handleLoadNew);
+
     ArrayList<EggButton> buttons = new ArrayList<>();
     buttons.add(pausePlayButton);
     buttons.add(restartButton);
     buttons.add(stopButton);
+    buttons.add(loadNewButton);
 
     // Main game loop
     while (!exitWindow && !Jaylib.WindowShouldClose()) // Detect window close button or ESC key
