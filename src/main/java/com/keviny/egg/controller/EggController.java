@@ -1,12 +1,12 @@
 package com.keviny.egg.controller;
 
 import com.keviny.egg.gui.EggStage;
+import java.io.File;
 import javax.swing.JFileChooser;
-import javax.swing.SwingUtilities;
 
 public class EggController {
-  private EggStage eggStage;
-  private String currentScriptPath;
+  private File currentScript;
+  EggStage eggStage;
 
   public EggController() {
     eggStage = new EggStage(this);
@@ -34,18 +34,12 @@ public class EggController {
   // Allows them to pick a script to play
   public OnClickFunction handleLoadNew =
       () -> {
-        SwingUtilities.invokeLater(
-            new Runnable() {
+        JFileChooser fileChooser = new JFileChooser();
+        int ret = fileChooser.showOpenDialog(null);
 
-              @Override
-              public void run() {
-                JFileChooser fileChooser = new JFileChooser();
-                int ret = fileChooser.showOpenDialog(null);
-
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                  System.out.println(fileChooser.getSelectedFile().getPath());
-                }
-              }
-            });
+        if (ret == JFileChooser.APPROVE_OPTION) {
+          currentScript = fileChooser.getSelectedFile();
+          eggStage.setScriptIndicator(currentScript.getName());
+        }
       };
 }
