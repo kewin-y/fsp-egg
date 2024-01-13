@@ -25,7 +25,6 @@ public class EggStage {
     Jaylib.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Egg - Easy Graphics");
     boolean exitWindow = false;
     Jaylib.SetTargetFPS(60);
-
     /*
      * Game Objects
      */

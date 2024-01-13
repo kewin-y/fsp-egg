@@ -30,11 +30,6 @@
       <artifactId>jaylib</artifactId>
       <version>[4.5.0,4.6)</version>
     </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-controls</artifactId>
-      <version>21.0.1</version>
-    </dependency>
   </dependencies>
 
   <build>

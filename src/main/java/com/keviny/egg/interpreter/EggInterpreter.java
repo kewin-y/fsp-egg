@@ -27,16 +27,16 @@ public class EggInterpreter {
     }
   }
 
-  private static void runFile(String path) throws IOException {
+  public static void runFile(String path) throws IOException {
 
     byte[] bytes = Files.readAllBytes(Paths.get(path));
     run(new String(bytes, Charset.defaultCharset()));
 
     // 65 signifies that the input data was incorrect in some way
-    if (hadError) System.exit(65);
+    // if (hadError) System.exit(65);
   }
 
-  private static void runPrompt() throws IOException {
+  public static void runPrompt() throws IOException {
     InputStreamReader input = new InputStreamReader(System.in);
     BufferedReader reader = new BufferedReader(input);
     for (; ; ) {
