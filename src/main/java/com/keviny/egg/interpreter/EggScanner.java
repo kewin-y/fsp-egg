@@ -24,7 +24,7 @@ public class EggScanner {
     keywords.put("for", TokenType.FOR);
     keywords.put("fun", TokenType.FUN);
     keywords.put("if", TokenType.IF);
-    keywords.put("NOTHING", TokenType.NOTHING);
+    keywords.put("nothing", TokenType.NOTHING);
     keywords.put("or", TokenType.OR);
     keywords.put("print", TokenType.PRINT);
     keywords.put("return", TokenType.RETURN);
@@ -48,13 +48,12 @@ public class EggScanner {
 
   private boolean isAtEnd() {
     return current >= source.length();
-    // أنا جوعان
   }
 
   public List<Token> scanTokens() {
     while (!isAtEnd()) {
       start = current;
-      scanToken(); // Increases current by an arbitrary amount unti a valid token is found
+      scanToken(); // Increases current by an arbitrary amount until a valid token is found
     }
 
     tokens.add(new Token(TokenType.EOF, "", null, line));

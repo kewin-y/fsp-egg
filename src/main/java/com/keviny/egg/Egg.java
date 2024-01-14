@@ -4,11 +4,11 @@
  * */
 package com.keviny.egg;
 
-import com.keviny.egg.controller.EggController;
+import com.keviny.egg.gui.EggStage;
 
 public class Egg {
   public static void main(String args[]) {
-    new EggController();
+    new EggStage();
     return;
   }
 }

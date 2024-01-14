@@ -27,6 +27,7 @@ public class EggInterpreter {
     }
   }
 
+  // Runs a file
   public static void runFile(String path) throws IOException {
 
     byte[] bytes = Files.readAllBytes(Paths.get(path));
@@ -36,6 +37,8 @@ public class EggInterpreter {
     // if (hadError) System.exit(65);
   }
 
+  // Runs code in an interactive prompt
+  // Think of the python shell
   public static void runPrompt() throws IOException {
     InputStreamReader input = new InputStreamReader(System.in);
     BufferedReader reader = new BufferedReader(input);
@@ -51,6 +54,7 @@ public class EggInterpreter {
     }
   }
 
+  // Runs whatever source code is given.
   private static void run(String source) {
     EggScanner scanner = new EggScanner(source);
     List<Token> tokens = scanner.scanTokens();
@@ -60,10 +64,12 @@ public class EggInterpreter {
     }
   }
 
+  // Method that sends an error message
   static void error(int line, String message) {
     report(line, "", message);
   }
 
+  // Helper method for the error method
   private static void report(int line, String where, String message) {
     System.err.println("[line " + line + "] Error" + where + ": " + message);
     hadError = true;

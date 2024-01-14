@@ -46,6 +46,10 @@ public class EggButton {
     }
   }
 
+  /*
+   * Getters & Setters
+   */
+
   public Raylib.Texture getTexture() {
     return texture;
   }
