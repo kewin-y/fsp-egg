@@ -8,7 +8,8 @@ import com.keviny.egg.gui.EggStage;
 
 public class Egg {
   public static void main(String args[]) {
-    new EggStage();
+    // new EggStage();
+    System.out.println("Hello World!");
     return;
   }
 }
