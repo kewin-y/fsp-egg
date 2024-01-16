@@ -1,0 +1,5 @@
+2024-01-16
+- Since tokens are done:
+  - Write a loop that executes the code given the tokens
+  - Most likely a while loop
+  - Code is simple enough to be excuted linearly

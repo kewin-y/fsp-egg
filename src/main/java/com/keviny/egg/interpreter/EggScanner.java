@@ -56,25 +56,11 @@ public class EggScanner {
       case ',':
         addToken(TokenType.COMMA);
         break;
-      case '-':
-        addToken(TokenType.MINUS);
-        break;
-      case '+':
-        addToken(TokenType.PLUS);
-        break;
-      case ';':
-        addToken(TokenType.SEMICOLON);
-        break;
-      case '*':
-        addToken(TokenType.STAR);
-        break;
       case '/':
         if (matchNext('/')) {
           // Continue reading until the end of line or file when two slashes (comment) are
           // read & do nothing
           while (peek() != '\n' && !isAtEnd()) advance();
-        } else {
-          addToken(TokenType.SLASH);
         }
         break;
       case ' ': // Useless characters since anguage won't be whitespace dependent
@@ -91,7 +77,7 @@ public class EggScanner {
 
         } else if (isAlpha(c)) {
           if (!addIdentifierOrKeyword()) {
-            EggInterpreter.error(line, "Egg does not support variables or identifiers");
+            EggInterpreter.error(line, "Egg does not support variables!");
           }
         } else {
           EggInterpreter.error(line, "Unexpected Character");
