@@ -4,12 +4,14 @@
  * */
 package com.keviny.egg;
 
+import java.io.IOException;
+
 import com.keviny.egg.gui.EggStage;
+import com.keviny.egg.interpreter.EggInterpreter;
 
 public class Egg {
-  public static void main(String args[]) {
-    // new EggStage();
-    System.out.println("Hello World!");
+  public static void main(String args[]) throws IOException {
+    EggInterpreter.startInterpreter(new String[0]);
     return;
   }
 }

@@ -17,23 +17,6 @@ public class EggScanner {
 
   static {
     keywords = new HashMap<>();
-    keywords.put("and", TokenType.AND);
-    keywords.put("class", TokenType.CLASS);
-    keywords.put("else", TokenType.ELSE);
-    keywords.put("false", TokenType.FALSE);
-    keywords.put("for", TokenType.FOR);
-    keywords.put("fun", TokenType.FUN);
-    keywords.put("if", TokenType.IF);
-    keywords.put("nothing", TokenType.NOTHING);
-    keywords.put("or", TokenType.OR);
-    keywords.put("print", TokenType.PRINT);
-    keywords.put("return", TokenType.RETURN);
-    keywords.put("super", TokenType.SUPER);
-    keywords.put("this", TokenType.THIS);
-    keywords.put("true", TokenType.TRUE);
-    keywords.put("var", TokenType.VAR);
-    keywords.put("while", TokenType.WHILE);
-
     // Graphics:
     keywords.put("pen_down", TokenType.PEN_DOWN);
     keywords.put("pen_up", TokenType.PEN_UP);
@@ -70,17 +53,8 @@ public class EggScanner {
       case ')':
         addToken(TokenType.RIGHT_PAREN);
         break;
-      case '{':
-        addToken(TokenType.LEFT_BRACE);
-        break;
-      case '}':
-        addToken(TokenType.RIGHT_BRACE);
-        break;
       case ',':
         addToken(TokenType.COMMA);
-        break;
-      case '.':
-        addToken(TokenType.PERIOD);
         break;
       case '-':
         addToken(TokenType.MINUS);
@@ -93,18 +67,6 @@ public class EggScanner {
         break;
       case '*':
         addToken(TokenType.STAR);
-        break;
-      case '!':
-        addToken(matchNext('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
-        break;
-      case '=':
-        addToken(matchNext('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL);
-        break;
-      case '<':
-        addToken(matchNext('=') ? TokenType.LESS_EQUAL : TokenType.LESS);
-        break;
-      case '>':
-        addToken(matchNext('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
         break;
       case '/':
         if (matchNext('/')) {
@@ -122,16 +84,15 @@ public class EggScanner {
       case '\n':
         line++;
         break;
-      case '"':
-        addString();
-        break;
 
       default:
         if (isDigit(c)) {
           addNumber();
 
         } else if (isAlpha(c)) {
-          addIdentifierOrKeyword();
+          if (!addIdentifierOrKeyword()) {
+            EggInterpreter.error(line, "Egg does not support variables or identifiers");
+          }
         } else {
           EggInterpreter.error(line, "Unexpected Character");
           break;
@@ -185,24 +146,6 @@ public class EggScanner {
     return isDigit(c) || isAlpha(c);
   }
 
-  private void addString() {
-    while (peek() != '"' && !isAtEnd()) {
-      if (peek() == '\n') line++;
-      advance();
-    }
-
-    if (isAtEnd()) {
-      EggInterpreter.error(line, "Unterminated String");
-    }
-
-    // Still want to advance over the closing " even though it gets by the substring
-    // method call
-    // This is because it is necessary to consider the lexeme (which could be "foo")
-    advance();
-    String literal = source.substring(start + 1, current - 1);
-    addToken(TokenType.STRING, literal);
-  }
-
   private void addNumber() {
     while (isDigit(peek())) advance();
 
@@ -215,12 +158,15 @@ public class EggScanner {
     addToken(TokenType.NUMBER, Double.parseDouble(source.substring(start, current)));
   }
 
-  private void addIdentifierOrKeyword() {
+  private boolean addIdentifierOrKeyword() {
     while (isAlphaNumeric(peek())) advance();
 
     String text = source.substring(start, current);
     TokenType type = keywords.get(text);
-    if (type == null) type = TokenType.IDENTIFIER;
+    if (type == null) {
+      return false;
+    }
     addToken(type);
+    return true;
   }
 }
