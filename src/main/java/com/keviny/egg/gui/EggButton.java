@@ -1,7 +1,7 @@
 // Sourced from https://www.raylib.com/examples.html
 package com.keviny.egg.gui;
 
-import com.keviny.egg.controller.OnClickFunction;
+import com.keviny.egg.controller.OnClick;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
@@ -12,7 +12,7 @@ public class EggButton {
 
   private Raylib.Texture texture;
   private Raylib.Rectangle bounds;
-  private OnClickFunction onClickFunction;
+  private OnClick onClick;
 
   private Raylib.Color currentColor;
 
@@ -26,8 +26,10 @@ public class EggButton {
     bounds = new Jaylib.Rectangle().x(x).y(y).width(texture.width()).height(texture.height());
   }
 
-  // Polls for button events and calls any function required
-  // https://github.com/raysan5/raylib/blob/master/examples/textures/textures_sprite_button.c
+  /**
+   * Polls for button events given the position of the mouse and calls any function required
+   * @param mousePos the position of the mouse
+   */
   public void poll(Raylib.Vector2 mousePos) {
     boolean clicked = false;
     if (Jaylib.CheckCollisionPointRec(mousePos, bounds)) {
@@ -38,17 +40,22 @@ public class EggButton {
     } else currentColor = DEFAULT;
 
     if (clicked) {
-      if (onClickFunction == null) {
+      if (onClick == null) {
         throw new UnsupportedOperationException("No function attached to this button.");
       }
 
-      onClickFunction.onClickMethod();
+      onClick.onClickMethod();
     }
   }
 
   /*
    * Getters & Setters
    */
+
+  // Attaches a functional interface to add button actions
+  public void attachFunction(OnClick onClickFunction) {
+    this.onClick = onClickFunction;
+  }
 
   public Raylib.Texture getTexture() {
     return texture;
@@ -62,9 +69,6 @@ public class EggButton {
     return bounds;
   }
 
-  public void attachFunction(OnClickFunction onClickFunction) {
-    this.onClickFunction = onClickFunction;
-  }
 
   public Raylib.Color getCurrentColor() {
     return currentColor;

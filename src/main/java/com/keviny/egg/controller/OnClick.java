@@ -1,6 +1,6 @@
 package com.keviny.egg.controller;
 
 @FunctionalInterface
-public interface OnClickFunction {
+public interface OnClick {
   void onClickMethod();
 }

@@ -1,7 +1,7 @@
 // This is an example Egg program
 
-// The pen starts at (0, 0), so we can start moving it:
-// This moves the pen 50 steps up, drawing a black line
+// The pen starts at (0, 0) (Which is the middle of the screen), so we can start moving it:
+// Since the pen points up at the start of the program, this moves the pen 50 steps up, drawing a black line
 pen_move 50
 
 // This changes the pen's color to blue
@@ -11,7 +11,14 @@ pen_color BLUE
 // This rotates the pen 90 degrees clockwise
 pen_rotate 90
 
-// Pick the pen up 
+// Move the pen 50 steps again
+// We now have an upside down "L"
+pen_move 50
+
+// Pick the pen up so that it doesn't draw
 pen_up
 
-pen_move 
+// We can still move and rotate it!
+pen_rotate 45
+pen_move 60
+

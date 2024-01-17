@@ -1,8 +1,6 @@
 package com.keviny.egg.interpreter;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,47 +9,13 @@ import java.util.List;
 public class EggInterpreter {
   static boolean hadError = false;
 
-  public static void startInterpreter(String[] args) throws IOException {
-    if (args.length > 1) {
-      // More than one argument
-      System.out.println("Usage: egg [script]");
-
-      // 64 indicates improper usage
-      System.exit(64);
-    } else if (args.length == 1) {
-      // Exactly 1 argument
-      runFile(args[0]);
-    } else {
-      // No arguments: "Shell" mode
-      runPrompt();
-    }
-  }
-
   // Runs a file
   public static void runFile(String path) throws IOException {
-
     byte[] bytes = Files.readAllBytes(Paths.get(path));
     run(new String(bytes, Charset.defaultCharset()));
 
     // 65 signifies that the input data was incorrect in some way
     // if (hadError) System.exit(65);
-  }
-
-  // Runs code in an interactive prompt
-  // Think of the python shell
-  public static void runPrompt() throws IOException {
-    InputStreamReader input = new InputStreamReader(System.in);
-    BufferedReader reader = new BufferedReader(input);
-    for (; ; ) {
-      System.out.print("> ");
-      String line = reader.readLine();
-
-      // readLine() returns null when EOF (end-of-file) signal is recieved
-      // Usually signalled when Ctrl-D is pressed
-      if (line == null) break;
-      run(line);
-      hadError = false;
-    }
   }
 
   // Runs whatever source code is given.

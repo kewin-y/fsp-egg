@@ -1,9 +1,9 @@
 package com.keviny.egg.gui;
 
-import com.keviny.egg.controller.OnClickFunction;
+import com.keviny.egg.controller.Drawing;
+import com.keviny.egg.controller.OnClick;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
-import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
@@ -15,26 +15,23 @@ public class EggStage { // Some constants for the GUI components
 
   private ArrayList<EggButton> buttons = new ArrayList<>();
 
-  private File currentScript;
+  private Drawing drawing = new Drawing();
   private String scriptIndicator = "[No Script Selected]";
   private int indicatorXPos;
 
+  private boolean isDrawingScript = false;
+
+  private void drawScript() {}
+
   // {{{ Function that pauses/plays the user's script
-  public OnClickFunction handlePausePlay =
+  public OnClick handlePlay =
       () -> {
         System.out.println("Pause/Play");
       };
   // }}}
 
-  // {{{ Function that restarts the execution of the user's script
-  public OnClickFunction handleRestart =
-      () -> {
-        System.out.println("Restart");
-      };
-  // }}}
-
   // {{{ Function that stops the execution of the user's script
-  public OnClickFunction handleStop =
+  public OnClick handleStop =
       () -> {
         System.out.println("Stop");
       };
@@ -42,15 +39,15 @@ public class EggStage { // Some constants for the GUI components
 
   // {{{ Function that displays a file picker for the user
   // Allows them to pick a script to play
-  public OnClickFunction handleLoadNew =
+  public OnClick handleLoadNew =
       () -> {
         JFileChooser fileChooser = new JFileChooser();
         int ret = fileChooser.showOpenDialog(null);
 
         if (ret == JFileChooser.APPROVE_OPTION) {
-          currentScript = fileChooser.getSelectedFile();
+          drawing.setScript(fileChooser.getSelectedFile());
 
-          scriptIndicator = String.format("[%s]", currentScript.getName());
+          scriptIndicator = String.format("[%s]", drawing.getScript().getName());
           indicatorXPos = getCoordinateToCenter(scriptIndicator);
         }
       };
@@ -61,23 +58,20 @@ public class EggStage { // Some constants for the GUI components
   // - Buttons
   private void initStageComponents() {
     // Create the buttons and attach their functions
-    EggButton pausePlayButton = new EggButton("assets/sprites/play.png", 576, BUTTON_Y_BOT);
-    pausePlayButton.attachFunction(handlePausePlay);
+    EggButton pausePlayButton = new EggButton("assets/sprites/play.png", 588, BUTTON_Y_BOT);
+    pausePlayButton.attachFunction(handlePlay);
 
-    EggButton restartButton = new EggButton("assets/sprites/restart.png", 624, BUTTON_Y_BOT);
-    restartButton.attachFunction(handleRestart);
-
-    EggButton stopButton = new EggButton("assets/sprites/stop.png", 672, BUTTON_Y_BOT);
+    EggButton stopButton = new EggButton("assets/sprites/stop.png", 650, BUTTON_Y_BOT);
     stopButton.attachFunction(handleStop);
 
     EggButton loadNewButton = new EggButton("assets/sprites/load_new.png", 581, 40);
     loadNewButton.attachFunction(handleLoadNew);
 
     buttons.add(pausePlayButton);
-    buttons.add(restartButton);
     buttons.add(stopButton);
     buttons.add(loadNewButton);
   }
+
   // }}}
 
   // Determines the proper x coordinate to center some text
@@ -123,6 +117,10 @@ public class EggStage { // Some constants for the GUI components
       Jaylib.BeginDrawing();
 
       Jaylib.ClearBackground(Jaylib.RAYWHITE);
+
+      if (isDrawingScript) {
+        drawScript();
+      }
 
       // Window decoration
       exitWindow =
