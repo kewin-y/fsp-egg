@@ -1,11 +1,11 @@
 package com.keviny.egg.gui;
 
-import com.keviny.egg.controller.Drawing;
 import com.keviny.egg.controller.OnClick;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class EggStage { // Some constants for the GUI components
   private static final int SCREEN_WIDTH = 1280;
@@ -21,19 +21,18 @@ public class EggStage { // Some constants for the GUI components
 
   private boolean isDrawingScript = false;
 
-  private void drawScript() {}
-
   // {{{ Function that pauses/plays the user's script
   public OnClick handlePlay =
       () -> {
-        System.out.println("Pause/Play");
+        isDrawingScript = true;
       };
+
   // }}}
 
   // {{{ Function that stops the execution of the user's script
   public OnClick handleStop =
       () -> {
-        System.out.println("Stop");
+        isDrawingScript = false;
       };
   // }}}
 
@@ -42,6 +41,8 @@ public class EggStage { // Some constants for the GUI components
   public OnClick handleLoadNew =
       () -> {
         JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter fnef = new FileNameExtensionFilter("Egg Scripts (.egg)", "egg");
+        fileChooser.setFileFilter(fnef);
         int ret = fileChooser.showOpenDialog(null);
 
         if (ret == JFileChooser.APPROVE_OPTION) {
@@ -58,7 +59,7 @@ public class EggStage { // Some constants for the GUI components
   // - Buttons
   private void initStageComponents() {
     // Create the buttons and attach their functions
-    EggButton pausePlayButton = new EggButton("assets/sprites/play.png", 588, BUTTON_Y_BOT);
+    EggButton pausePlayButton = new EggButton("assets/sprites/play.png", 598, BUTTON_Y_BOT);
     pausePlayButton.attachFunction(handlePlay);
 
     EggButton stopButton = new EggButton("assets/sprites/stop.png", 650, BUTTON_Y_BOT);
@@ -118,10 +119,6 @@ public class EggStage { // Some constants for the GUI components
 
       Jaylib.ClearBackground(Jaylib.RAYWHITE);
 
-      if (isDrawingScript) {
-        drawScript();
-      }
-
       // Window decoration
       exitWindow =
           Jaylib.GuiWindowBox(new Jaylib.Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), "#198# Egg");
@@ -132,6 +129,11 @@ public class EggStage { // Some constants for the GUI components
             b.getTexture(),
             new Jaylib.Vector2().x(b.getBounds().x()).y(b.getBounds().y()),
             b.getCurrentColor());
+      }
+
+      // Display the user's drawing:
+      if (isDrawingScript) {
+        drawing.draw();
       }
 
       Jaylib.DrawText(scriptIndicator, indicatorXPos, 60, FONT_SIZE, Jaylib.GRAY);

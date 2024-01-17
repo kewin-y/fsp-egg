@@ -1,16 +1,15 @@
 package com.keviny.egg.interpreter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+// This class the scanner (lexer) of the small languageo of Egg
 public class EggScanner {
   private final String source;
-  private final List<Token> tokens = new ArrayList<>();
+  private final TokensWrapper tokensWrapper = new TokensWrapper();
 
-  private int start = 0; // First character of lexeme
-  private int current = 0; // Current character of lexeme
+  private int lexemeStart = 0; // First character of lexeme -> mutable state variable
+  private int lexemeCurrent = 0; // Current character of lexeme -> mutable state variable
   private int line = 1;
 
   private static final Map<String, TokenType> keywords;
@@ -23,37 +22,44 @@ public class EggScanner {
     keywords.put("pen_color", TokenType.PEN_COLOR);
     keywords.put("pen_move", TokenType.PEN_MOVE);
     keywords.put("pen_rotate", TokenType.PEN_ROTATE);
-    
+
     // Colors:
-    keywords.put("RED", TokenType.RED);
-    keywords.put("ORANGE", TokenType.ORANGE);
-    keywords.put("YELLOW", TokenType.YELLOW);
-    keywords.put("GREEN", TokenType.GREEN);
-    keywords.put("BLUE", TokenType.BLUE);
-    keywords.put("PURPLE", TokenType.PURPLE);
+    keywords.put("red", TokenType.RED);
+    keywords.put("orange", TokenType.ORANGE);
+    keywords.put("yellow", TokenType.YELLOW);
+    keywords.put("green", TokenType.GREEN);
+    keywords.put("blue", TokenType.BLUE);
+    keywords.put("purple", TokenType.PURPLE);
   }
 
+  // Constructor
   public EggScanner(String source) {
     this.source = source;
   }
 
+  // Wether or not the scanner has reached the end.
   private boolean isAtEnd() {
-    return current >= source.length();
+    return lexemeCurrent >= source.length();
   }
 
-  public List<Token> scanTokens() {
+  // Scans the entire file
+  public TokensWrapper scanTokens() {
     while (!isAtEnd()) {
-      start = current;
+      lexemeStart = lexemeCurrent;
       scanToken(); // Increases current by an arbitrary amount until a valid token is found
     }
 
-    tokens.add(new Token(TokenType.EOF, "", null, line));
-    return tokens;
+    tokensWrapper.getTokens().add(new Token(TokenType.EOF, "", null, line));
+    return tokensWrapper;
   }
 
+  // Scans and matches a single token
   private void scanToken() {
     // Gets the urrent character then imediately goes to the next
+
     char c = advance();
+
+    // Switch statement to determine tokens
     switch (c) {
       case '/':
         if (matchNext('/')) {
@@ -62,71 +68,80 @@ public class EggScanner {
           while (peek() != '\n' && !isAtEnd()) advance();
         }
         break;
-      case ' ': // Useless characters since anguage won't be whitespace dependent
+      case ' ': // Useless characters since language won't be whitespace dependent (Although
+        // whitespace is required to differentiate token types)
       case '\r':
       case '\t':
         break;
       case '\n':
         line++;
         break;
-
       default:
         if (isDigit(c)) {
           addNumber();
-
         } else if (isAlpha(c)) {
           if (!addIdentifierOrKeyword()) {
-            EggInterpreter.error(line, "Unexpected Token!");
+            tokensWrapper.getErrors().add(new EggError(line, "Unrecognized Token."));
           }
         } else {
-          EggInterpreter.error(line, "Unexpected Character");
+          tokensWrapper.getErrors().add(new EggError(line, "Unrecognized Character."));
           break;
         }
     }
   }
 
+  // Return the current character, then increment it
   private char advance() {
-    // Return current, then increment it
-    return source.charAt(current++);
+    return source.charAt(lexemeCurrent++);
   }
 
   private void addToken(TokenType tokenType) {
     addToken(tokenType, null);
   }
 
+  // Adds a token to the field
   private void addToken(TokenType tokenType, Object literal) {
-    String lexeme = source.substring(start, current);
-    tokens.add(new Token(tokenType, lexeme, literal, line));
+    String lexeme = source.substring(lexemeStart, lexemeCurrent);
+    tokensWrapper.getTokens().add(new Token(tokenType, lexeme, literal, line));
   }
 
+  // Increments the current character count and determines whether or not it
+  // matches with an expected character
+  // Useful for scanning 2-character long tokens
+  // Only used for comments in this language
   private boolean matchNext(char expected) {
     if (isAtEnd()) return false;
-    if (source.charAt(current) != expected) return false;
+    if (source.charAt(lexemeCurrent) != expected) return false;
 
-    current++;
+    lexemeCurrent++;
     return true;
   }
 
+  // Checks the current character
+  // Called "lookahead"
   private char peek() {
-    // Checks the next character
-    // Called "lookahead"
     if (isAtEnd()) return '\0';
-    return source.charAt(current);
+    return source.charAt(lexemeCurrent);
   }
 
+  // Check's the next character
   private char peekNext() {
-    if (current + 1 >= source.length()) return '\0';
-    return source.charAt(current + 1);
+    if (lexemeCurrent + 1 >= source.length()) return '\0';
+    return source.charAt(lexemeCurrent + 1);
   }
 
+  // Method to check whether or not a character is a number
+  // Since java's builtin method checks for strange
   private boolean isDigit(char c) {
     return c >= '0' && c <= '9';
   }
 
+  // Check if a character is a letter
   private boolean isAlpha(char c) {
     return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_'));
   }
 
+  // Checks if a character is a letter or a number
   private boolean isAlphaNumeric(char c) {
     return isDigit(c) || isAlpha(c);
   }
@@ -140,13 +155,13 @@ public class EggScanner {
       while (isDigit(peek())) advance();
     }
 
-    addToken(TokenType.NUMBER, Double.parseDouble(source.substring(start, current)));
+    addToken(TokenType.NUMBER, Double.parseDouble(source.substring(lexemeStart, lexemeCurrent)));
   }
 
   private boolean addIdentifierOrKeyword() {
     while (isAlphaNumeric(peek())) advance();
 
-    String text = source.substring(start, current);
+    String text = source.substring(lexemeStart, lexemeCurrent);
     TokenType type = keywords.get(text);
     if (type == null) {
       return false;
