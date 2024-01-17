@@ -21,8 +21,16 @@ public class EggScanner {
     keywords.put("pen_down", TokenType.PEN_DOWN);
     keywords.put("pen_up", TokenType.PEN_UP);
     keywords.put("pen_color", TokenType.PEN_COLOR);
-    keywords.put("pen_go", TokenType.PEN_GO);
+    keywords.put("pen_move", TokenType.PEN_MOVE);
     keywords.put("pen_rotate", TokenType.PEN_ROTATE);
+    
+    // Colors:
+    keywords.put("RED", TokenType.RED);
+    keywords.put("ORANGE", TokenType.ORANGE);
+    keywords.put("YELLOW", TokenType.YELLOW);
+    keywords.put("GREEN", TokenType.GREEN);
+    keywords.put("BLUE", TokenType.BLUE);
+    keywords.put("PURPLE", TokenType.PURPLE);
   }
 
   public EggScanner(String source) {
@@ -47,15 +55,6 @@ public class EggScanner {
     // Gets the urrent character then imediately goes to the next
     char c = advance();
     switch (c) {
-      case '(':
-        addToken(TokenType.LEFT_PAREN);
-        break;
-      case ')':
-        addToken(TokenType.RIGHT_PAREN);
-        break;
-      case ',':
-        addToken(TokenType.COMMA);
-        break;
       case '/':
         if (matchNext('/')) {
           // Continue reading until the end of line or file when two slashes (comment) are
@@ -77,7 +76,7 @@ public class EggScanner {
 
         } else if (isAlpha(c)) {
           if (!addIdentifierOrKeyword()) {
-            EggInterpreter.error(line, "Egg does not support variables!");
+            EggInterpreter.error(line, "Unexpected Token!");
           }
         } else {
           EggInterpreter.error(line, "Unexpected Character");
