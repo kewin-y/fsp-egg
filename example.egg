@@ -1,7 +1,7 @@
-pen_move 50
+pen_rotate 90
+pen_move 300
+pen_up
 pen_rotate 90
 pen_move 50
 pen_rotate 90
-pen_move 50
-pen_rotate 90
-pen_move 50
+pen_move 300

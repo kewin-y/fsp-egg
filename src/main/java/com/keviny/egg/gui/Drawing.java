@@ -119,6 +119,7 @@ public class Drawing {
 
   private void resetPen() {
     penColor = Jaylib.BLACK;
+    penColor.a((byte) 255);
     penDirection = Jaylib.Vector2Normalize(new Jaylib.Vector2(0, -1));
     penPosition = EggStage.stageToScreenPos(new Jaylib.Vector2(0, 0));
   }
