@@ -1,14 +1,15 @@
 package com.keviny.egg.interpreter;
 
 public class EggError {
-
-  public EggError(int line, String message) {
-    this.line = line;
-    this.message = message;
-  }
-
   private int line;
   private String message;
+  private String what;
+
+  public EggError(int line, String message, String what) {
+    this.line = line;
+    this.message = message;
+    this.what = what;
+  }
 
   public int getLine() {
     return line;
@@ -28,6 +29,6 @@ public class EggError {
 
   @Override
   public String toString() {
-    return "Error on line " + line + ": " + message;
+    return "Error on line " + line + ": " + message + ": " + "\"" + what + "\"";
   }
 }

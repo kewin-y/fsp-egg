@@ -1,7 +1,6 @@
 # ICS4U1 FSP - Egg (Easy Graphics)
 
-- A simple engine used to create 2D drawings
-    - Its primary function is to introduce programming to children/beginners
+- A way to draw simple images using code
 - Interpreter built by following [*Crafting Interpreters*](https://craftinginterpreters.com/) by Robert Nystrom
 
 expression     → literal

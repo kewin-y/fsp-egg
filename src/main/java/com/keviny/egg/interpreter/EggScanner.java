@@ -12,24 +12,24 @@ public class EggScanner {
   private int lexemeCurrent = 0; // Current character of lexeme -> mutable state variable
   private int line = 1;
 
-  private static final Map<String, TokenType> keywords;
+  private static final Map<String, TokenType> KEYWORDS;
 
   static {
-    keywords = new HashMap<>();
+    KEYWORDS = new HashMap<>();
     // Graphics:
-    keywords.put("pen_down", TokenType.PEN_DOWN);
-    keywords.put("pen_up", TokenType.PEN_UP);
-    keywords.put("pen_color", TokenType.PEN_COLOR);
-    keywords.put("pen_move", TokenType.PEN_MOVE);
-    keywords.put("pen_rotate", TokenType.PEN_ROTATE);
+    KEYWORDS.put("pen_down", TokenType.PEN_DOWN);
+    KEYWORDS.put("pen_up", TokenType.PEN_UP);
+    KEYWORDS.put("pen_color", TokenType.PEN_COLOR);
+    KEYWORDS.put("pen_move", TokenType.PEN_MOVE);
+    KEYWORDS.put("pen_rotate", TokenType.PEN_ROTATE);
 
     // Colors:
-    keywords.put("red", TokenType.RED);
-    keywords.put("orange", TokenType.ORANGE);
-    keywords.put("yellow", TokenType.YELLOW);
-    keywords.put("green", TokenType.GREEN);
-    keywords.put("blue", TokenType.BLUE);
-    keywords.put("purple", TokenType.PURPLE);
+    KEYWORDS.put("red", TokenType.RED);
+    KEYWORDS.put("orange", TokenType.ORANGE);
+    KEYWORDS.put("yellow", TokenType.YELLOW);
+    KEYWORDS.put("green", TokenType.GREEN);
+    KEYWORDS.put("blue", TokenType.BLUE);
+    KEYWORDS.put("purple", TokenType.PURPLE);
   }
 
   // Constructor
@@ -81,10 +81,16 @@ public class EggScanner {
           addNumber();
         } else if (isAlpha(c)) {
           if (!addIdentifierOrKeyword()) {
-            tokensWrapper.getErrors().add(new EggError(line, "Unrecognized Token."));
+            tokensWrapper
+                .getErrors()
+                .add(
+                    new EggError(
+                        line, "Unrecognized Token", source.substring(lexemeStart, lexemeCurrent)));
           }
         } else {
-          tokensWrapper.getErrors().add(new EggError(line, "Unrecognized Character."));
+          tokensWrapper
+              .getErrors()
+              .add(new EggError(line, "Unrecognized Character", "" + source.charAt(lexemeCurrent)));
           break;
         }
     }
@@ -155,14 +161,14 @@ public class EggScanner {
       while (isDigit(peek())) advance();
     }
 
-    addToken(TokenType.NUMBER, Double.parseDouble(source.substring(lexemeStart, lexemeCurrent)));
+    addToken(TokenType.NUMBER, Float.parseFloat(source.substring(lexemeStart, lexemeCurrent)));
   }
 
   private boolean addIdentifierOrKeyword() {
     while (isAlphaNumeric(peek())) advance();
 
     String text = source.substring(lexemeStart, lexemeCurrent);
-    TokenType type = keywords.get(text);
+    TokenType type = KEYWORDS.get(text);
     if (type == null) {
       return false;
     }

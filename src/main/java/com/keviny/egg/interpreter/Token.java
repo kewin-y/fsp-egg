@@ -7,6 +7,7 @@ public class Token {
   private final TokenType type;
   private final String lexeme; // Raw substring that has actual meaning
   private final Object literal; // The value associated with the token
+
   private final int line;
 
   public Token(TokenType type, String lexeme, Object literal, int line) {

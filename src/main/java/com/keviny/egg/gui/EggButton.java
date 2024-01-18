@@ -28,6 +28,7 @@ public class EggButton {
 
   /**
    * Polls for button events given the position of the mouse and calls any function required
+   *
    * @param mousePos the position of the mouse
    */
   public void poll(Raylib.Vector2 mousePos) {
@@ -46,6 +47,15 @@ public class EggButton {
 
       onClick.onClickMethod();
     }
+  }
+
+  // Responsible for displaying the button
+  public void draw() {
+    Jaylib.DrawTextureV(
+        texture,
+        new Jaylib.Vector2(bounds.x(), bounds.y()),
+        // some objects like this.
+        currentColor);
   }
 
   /*
@@ -68,7 +78,6 @@ public class EggButton {
   public Raylib.Rectangle getBounds() {
     return bounds;
   }
-
 
   public Raylib.Color getCurrentColor() {
     return currentColor;
