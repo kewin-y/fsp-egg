@@ -9,6 +9,7 @@ import com.raylib.Raylib;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,6 +24,10 @@ public class Drawing {
   private Raylib.Vector2 penPosition;
   private Raylib.Vector2 penDirection;
 
+  // Since the drawing should tell the stage to stop
+  // -> This is for error handling
+  private final EggStage stage;
+
   private static final HashMap<TokenType, Raylib.Color> COLORS;
 
   static {
@@ -35,22 +40,31 @@ public class Drawing {
     COLORS.put(TokenType.PURPLE, Jaylib.PURPLE);
   }
 
+  // Constructor sets the stage field
+  public Drawing(EggStage stage) {
+    this.stage = stage;
+  }
+
   // Executes the script and draws the image
   public void draw() {
     if (tokens == null || script == null) {
-      // TODO: Implement error
+      // TODO: Implement info panel
       System.out.println("No script to draw!");
       return;
     }
     if (scanningErrors.size() > 0) {
-      System.out.println("Scanning error!");
+      displayError(scanningErrors, "Scanning errors present in the script!");
       return;
     }
 
+    runTokens();
+  }
+
+  // This method loops through the tokens and creates a drawing accordingly
+  private void runTokens() {
     int index = 0;
 
     resetPen();
-
     while (tokens.get(index).getType() != TokenType.EOF) {
       switch (tokens.get(index).getType()) {
         case PEN_COLOR:
@@ -58,7 +72,7 @@ public class Drawing {
 
           Raylib.Color newColor = COLORS.get(tokens.get(index).getType());
           if (newColor == null) {
-            System.out.println("Runtime Error!");
+            displayRuntimeError(index);
             return;
           }
           penColor = newColor;
@@ -68,7 +82,7 @@ public class Drawing {
           index++;
 
           if (tokens.get(index).getType() != TokenType.NUMBER) {
-            System.out.println("Runtime Error!");
+            displayRuntimeError(index);
             return;
           }
 
@@ -92,7 +106,7 @@ public class Drawing {
           }
 
           float angle = (float) Math.toRadians((float) tokens.get(index).getLiteral());
-        
+
           Raylib.Vector2 newDirection = Jaylib.Vector2Rotate(penDirection, angle);
           penDirection = newDirection;
 
@@ -112,11 +126,40 @@ public class Drawing {
     }
   }
 
-  // Method that dispays an error
-  public void error(int line, String message) {}
+  // Methods to display errors:
 
-  private void report(int line, String where, String message) {}
+  /**
+   * Shows a panel with every error
+   *
+   * @param errors The list of errors to display
+   * @param msg The title of the panel
+   */
+  private void displayError(List<EggError> errors, String msg) {
+    var ep = new ErrorPanel(errors, msg);
+    ep.show();
+    stage.setDrawingScript(false);
+  }
 
+  /**
+   * Displays a runtime error for a token
+   *
+   * @param index The index of the erroneous token
+   */
+  private void displayRuntimeError(int index) {
+    Token token;
+    
+    // Since we don't want to report the end of a file as an error
+    if (tokens.get(index).getType() == TokenType.EOF) {
+      token = tokens.get(index - 1);
+    } else {
+      token = tokens.get(index);
+    }
+
+    EggError rerror = new EggError(token.getLine(), "Misplaced token", token.getLexeme());
+    displayError(Arrays.asList(new EggError[] {rerror}), "Runtime Error:");
+  }
+
+  // Resets the pen to it's default settings
   private void resetPen() {
     penColor = Jaylib.BLACK;
     penColor.a((byte) 255);

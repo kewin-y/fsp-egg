@@ -10,10 +10,11 @@ public class EggScanner {
 
   private int lexemeStart = 0; // First character of lexeme -> mutable state variable
   private int lexemeCurrent = 0; // Current character of lexeme -> mutable state variable
-  private int line = 1;
+  private int currentLine = 1;
 
   private static final Map<String, TokenType> KEYWORDS;
 
+  // Keywords and the tokens associated with them
   static {
     KEYWORDS = new HashMap<>();
     // Graphics:
@@ -49,7 +50,7 @@ public class EggScanner {
       scanToken(); // Increases current by an arbitrary amount until a valid token is found
     }
 
-    tokensWrapper.getTokens().add(new Token(TokenType.EOF, "", null, line));
+    tokensWrapper.getTokens().add(new Token(TokenType.EOF, "", null, currentLine));
     return tokensWrapper;
   }
 
@@ -74,7 +75,7 @@ public class EggScanner {
       case '\t':
         break;
       case '\n':
-        line++;
+        currentLine++;
         break;
       default:
         if (isDigit(c)) {
@@ -85,12 +86,18 @@ public class EggScanner {
                 .getErrors()
                 .add(
                     new EggError(
-                        line, "Unrecognized Token", source.substring(lexemeStart, lexemeCurrent)));
+                        currentLine,
+                        "Unrecognized Token",
+                        source.substring(lexemeStart, lexemeCurrent)));
           }
         } else {
           tokensWrapper
               .getErrors()
-              .add(new EggError(line, "Unrecognized Character", "" + source.charAt(lexemeCurrent)));
+              .add(
+                  new EggError(
+                      currentLine,
+                      "Unrecognized Character",
+                      "" + source.charAt(lexemeCurrent - 1)));
           break;
         }
     }
@@ -101,6 +108,7 @@ public class EggScanner {
     return source.charAt(lexemeCurrent++);
   }
 
+  // Overloaded method in case the token has no literal
   private void addToken(TokenType tokenType) {
     addToken(tokenType, null);
   }
@@ -108,13 +116,16 @@ public class EggScanner {
   // Adds a token to the field
   private void addToken(TokenType tokenType, Object literal) {
     String lexeme = source.substring(lexemeStart, lexemeCurrent);
-    tokensWrapper.getTokens().add(new Token(tokenType, lexeme, literal, line));
+    tokensWrapper.getTokens().add(new Token(tokenType, lexeme, literal, currentLine));
   }
 
-  // Increments the current character count and determines whether or not it
-  // matches with an expected character
-  // Useful for scanning 2-character long tokens
-  // Only used for comments in this language
+  /**
+   * Increments the current character count and determines whether or not it matches with an
+   * expected character Useful for scanning 2-character long tokens Only used for comments in this
+   * language
+   *
+   * @param expected The character to match
+   */
   private boolean matchNext(char expected) {
     if (isAtEnd()) return false;
     if (source.charAt(lexemeCurrent) != expected) return false;
@@ -130,14 +141,17 @@ public class EggScanner {
     return source.charAt(lexemeCurrent);
   }
 
-  // Check's the next character
+  // Checks the next character
   private char peekNext() {
     if (lexemeCurrent + 1 >= source.length()) return '\0';
     return source.charAt(lexemeCurrent + 1);
   }
 
-  // Method to check whether or not a character is a number
-  // Since java's builtin method checks for strange
+  /**
+   * Method to check whether or not a character is a number Since java's builtin method checks for
+   * strange (non-arabic) digits
+   * @param c the character to check
+   */
   private boolean isDigit(char c) {
     return c >= '0' && c <= '9';
   }
@@ -152,6 +166,7 @@ public class EggScanner {
     return isDigit(c) || isAlpha(c);
   }
 
+  // Adds a number token to the tokenWrapper token's field
   private void addNumber() {
     while (isDigit(peek())) advance();
 
@@ -164,6 +179,9 @@ public class EggScanner {
     addToken(TokenType.NUMBER, Float.parseFloat(source.substring(lexemeStart, lexemeCurrent)));
   }
 
+  // Adds a keyword token to the tokenWrapper's tokens field
+  // Advances through souce and returns false if an invalid identifier is found
+  // Returns true if
   private boolean addIdentifierOrKeyword() {
     while (isAlphaNumeric(peek())) advance();
 

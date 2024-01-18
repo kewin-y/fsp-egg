@@ -33,7 +33,7 @@ public class EggStage {
   // Creates the components of the stage
   private void initStageComponents() {
     // The Drawing:
-    drawing = new Drawing();
+    drawing = new Drawing(this);
     // Create the buttons and attach their functions
     EggButton pausePlayButton = new EggButton("assets/sprites/play.png", 598, BUTTON_Y_BOT);
     pausePlayButton.attachFunction(controller.handlePlay);
@@ -49,7 +49,12 @@ public class EggStage {
     buttons.add(loadNewButton);
   }
 
+  // Change the drawing's script and update the indicators 
   public void updateScript(File script) {
+    if (script == null) {
+      return;
+    }
+
     drawing.setScript(script);
     scriptIndicator = String.format("[%s]", drawing.getScript().getName());
     scriptIndicatorXPos = getCoordinateToCenter(scriptIndicator);

@@ -1,5 +1,6 @@
 package com.keviny.egg.interpreter;
 
+// Class to rerpresent an error in the script
 public class EggError {
   private int line;
   private String message;

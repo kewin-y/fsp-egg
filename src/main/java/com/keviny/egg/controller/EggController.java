@@ -1,6 +1,9 @@
 package com.keviny.egg.controller;
 
 import com.keviny.egg.gui.EggStage;
+
+import java.io.File;
+
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -21,6 +24,9 @@ public class EggController {
 
   // {{{ Function that pauses/plays the user's script
   public OnClick handlePlay = () -> {
+    // Refresh so I don't have to reload it again
+    File sc = stage.getDrawing().getScript();
+    stage.updateScript(sc);
     stage.setDrawingScript(true);
   };
 
