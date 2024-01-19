@@ -1,12 +1,24 @@
-/* Kevin Yu
+/*
+ * === Name ===
+ * Kevin Yu
+ *
+ * === Course ===
  * ICS4U1
- * EGG (Easy Graphics)
+ *
+ * === Date ===
+ * 2024-01-19
+ *
+ * === Title ===
+ * EGG (Easy Graphics g)
+ *
+ * === Concerns: ===
+ * Does not work on musl libc due to glibc being required for JavaCPP bindings of Jaylib 
+ * No text editor -> user must write their own script in notepad, or some other external software
  * */
 package com.keviny.egg;
 
-import java.io.IOException;
-
 import com.keviny.egg.controller.EggController;
+import java.io.IOException;
 
 // This is the main class that instantiates the contoller
 public class Egg {
