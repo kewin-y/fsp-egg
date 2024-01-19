@@ -27,14 +27,14 @@ public class EggController {
     // Refresh so I don't have to reload it again
     File sc = stage.getDrawing().getScript();
     stage.updateScript(sc);
-    stage.setDrawingScript(true);
+    stage.getDrawing().setShouldDraw(true);
   };
 
   // }}}
 
   // {{{ Function that stops the execution of the user's script
   public OnClick handleStop = () -> {
-    stage.setDrawingScript(false);
+    stage.getDrawing().setShouldDraw(false);
   };
   // }}}
 

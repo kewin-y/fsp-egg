@@ -22,7 +22,6 @@ public class EggStage {
 
   // Drawing -> the thing that the code makes
   private Drawing drawing;
-  private boolean drawingScript = false;
 
   private final EggController controller;
 
@@ -49,7 +48,7 @@ public class EggStage {
     buttons.add(loadNewButton);
   }
 
-  // Change the drawing's script and update the indicators 
+  // Change the drawing's script and update the indicators
   public void updateScript(File script) {
     if (script == null) {
       return;
@@ -114,9 +113,7 @@ public class EggStage {
       }
 
       // Display the user's drawing:
-      if (drawingScript) {
-        drawing.draw();
-      }
+      drawing.draw();
 
       Jaylib.DrawText(scriptIndicator, scriptIndicatorXPos, 60, FONT_SIZE, Jaylib.GRAY);
 
@@ -129,9 +126,7 @@ public class EggStage {
     /*
      * De-Initialization
      */
-    Jaylib.CloseWindow(); // Close window and OpenGL context
-    // Don't have to worry abt the resource leak warnings
-    // (I hope)
+    Jaylib.CloseWindow(); // Close window and OpenGL context -> cleans resources as well
   }
 
   public static Raylib.Vector2 stageToScreenPos(Raylib.Vector2 pos) {
@@ -164,13 +159,5 @@ public class EggStage {
 
   public void setDrawing(Drawing drawing) {
     this.drawing = drawing;
-  }
-
-  public boolean isDrawingScript() {
-    return drawingScript;
-  }
-
-  public void setDrawingScript(boolean drawingScript) {
-    this.drawingScript = drawingScript;
   }
 }

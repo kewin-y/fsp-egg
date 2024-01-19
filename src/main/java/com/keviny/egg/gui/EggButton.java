@@ -5,16 +5,14 @@ import com.keviny.egg.controller.OnClick;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
-public class EggButton {
+public class EggButton extends EggComponent {
   private static final Raylib.Color DEFAULT = Jaylib.WHITE;
   private static final Raylib.Color HOVERED = new Jaylib.Color(255, 255, 255, 180);
   private static final Raylib.Color CLICKED = new Jaylib.Color(255, 255, 255, 120);
+  private Raylib.Color currentColor;
 
   private Raylib.Texture texture;
-  private Raylib.Rectangle bounds;
   private OnClick onClick;
-
-  private Raylib.Color currentColor;
 
   public EggButton(String spritePath, int x, int y) {
     texture = Jaylib.LoadTexture(spritePath);
@@ -23,7 +21,16 @@ public class EggButton {
     // initialize a struct is like this: var vec = new Vector3().x(1).y(2).z(3);
 
     // The position and size of the button
-    bounds = new Jaylib.Rectangle().x(x).y(y).width(texture.width()).height(texture.height());
+    setBounds(new Jaylib.Rectangle().x(x).y(y).width(texture.width()).height(texture.height()));
+  }
+
+  // Responsible for displaying the button
+  public void draw() {
+    Jaylib.DrawTextureV(
+        texture,
+        new Jaylib.Vector2(getBounds().x(), getBounds().y()),
+        // some objects like this.
+        currentColor);
   }
 
   /**
@@ -33,7 +40,7 @@ public class EggButton {
    */
   public void poll(Raylib.Vector2 mousePos) {
     boolean clicked = false;
-    if (Jaylib.CheckCollisionPointRec(mousePos, bounds)) {
+    if (Jaylib.CheckCollisionPointRec(mousePos, getBounds())) {
       if (Jaylib.IsMouseButtonDown(Jaylib.MOUSE_BUTTON_LEFT)) currentColor = CLICKED;
       else currentColor = HOVERED;
 
@@ -47,15 +54,6 @@ public class EggButton {
 
       onClick.onClickMethod();
     }
-  }
-
-  // Responsible for displaying the button
-  public void draw() {
-    Jaylib.DrawTextureV(
-        texture,
-        new Jaylib.Vector2(bounds.x(), bounds.y()),
-        // some objects like this.
-        currentColor);
   }
 
   /*
@@ -73,10 +71,6 @@ public class EggButton {
 
   public void setTexture(Raylib.Texture texture) {
     this.texture = texture;
-  }
-
-  public Raylib.Rectangle getBounds() {
-    return bounds;
   }
 
   public Raylib.Color getCurrentColor() {

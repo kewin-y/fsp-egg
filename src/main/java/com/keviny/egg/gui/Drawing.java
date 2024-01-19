@@ -1,7 +1,9 @@
 package com.keviny.egg.gui;
 
+// An error for when there is no script selected
 import com.keviny.egg.interpreter.EggError;
 import com.keviny.egg.interpreter.EggScanner;
+import com.keviny.egg.interpreter.NoScriptError;
 import com.keviny.egg.interpreter.Token;
 import com.keviny.egg.interpreter.TokenType;
 import com.raylib.Jaylib;
@@ -14,7 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 
 // This class is a representation of the user's script (Drawing)
-public class Drawing {
+public class Drawing extends EggComponent {
+  private static final Raylib.Vector2 DEFAULT_DIRECTION =
+      Jaylib.Vector2Normalize(new Jaylib.Vector2(0, -1));
+  private static final Raylib.Vector2 DEFAULT_POSITION =
+      EggStage.stageToScreenPos(new Jaylib.Vector2(0, 0));
   private File script;
 
   private List<Token> tokens;
@@ -43,13 +49,15 @@ public class Drawing {
   // Constructor sets the stage field
   public Drawing(EggStage stage) {
     this.stage = stage;
+    setShouldDraw(false);
   }
 
   // Executes the script and draws the image
   public void draw() {
+    if (!isShouldDraw()) return;
+
     if (tokens == null || script == null) {
-      // TODO: Implement info panel
-      System.out.println("No script to draw!");
+      displayError(Arrays.asList(new NoScriptError()), "Error");
       return;
     }
     if (scanningErrors.size() > 0) {
@@ -137,17 +145,17 @@ public class Drawing {
   private void displayError(List<EggError> errors, String msg) {
     var ep = new ErrorPanel(errors, msg);
     ep.show();
-    stage.setDrawingScript(false);
+    setShouldDraw(false);
   }
 
   /**
    * Displays a runtime error for a token
    *
-   * @param index The index of the erroneous token
+   * @param index The index of the erroneous token in the tokens field
    */
   private void displayRuntimeError(int index) {
     Token token;
-    
+
     // Since we don't want to report the end of a file as an error
     if (tokens.get(index).getType() == TokenType.EOF) {
       token = tokens.get(index - 1);
@@ -163,8 +171,8 @@ public class Drawing {
   private void resetPen() {
     penColor = Jaylib.BLACK;
     penColor.a((byte) 255);
-    penDirection = Jaylib.Vector2Normalize(new Jaylib.Vector2(0, -1));
-    penPosition = EggStage.stageToScreenPos(new Jaylib.Vector2(0, 0));
+    penDirection = DEFAULT_DIRECTION;
+    penPosition = DEFAULT_POSITION;
   }
 
   public File getScript() {

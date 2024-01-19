@@ -65,11 +65,18 @@ public class ErrorPanel extends JOptionPane {
   private final List<EggError> errors;
   private final String msg;
 
+  /**
+   * Constructor that intializes final fields
+   *
+   * @param errors the {@code}List<EggError> of errors to display
+   * @param msg the title of the {@code}JOptionPane
+   */
   public ErrorPanel(List<EggError> errors, String msg) {
     this.errors = errors;
     this.msg = msg;
   }
 
+  // Display the JOptionPane
   public void show() {
     JScrollPane scrollableInfo =
         new JScrollPane(

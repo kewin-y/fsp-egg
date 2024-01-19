@@ -28,6 +28,7 @@ public class EggError {
     this.message = message;
   }
 
+  // Modified toString() method to format the error
   @Override
   public String toString() {
     return "Error on line " + line + ": " + message + ": " + "\"" + what + "\"";
