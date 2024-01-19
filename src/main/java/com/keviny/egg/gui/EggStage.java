@@ -20,11 +20,13 @@ public class EggStage {
   private String scriptIndicator = "[No Script Selected]";
   private int scriptIndicatorXPos;
 
-  // Drawing -> the thing that the code makes
+  // Drawing -> the "thing" (drawing) that the code makes
   private Drawing drawing;
 
   private final EggStageController controller;
 
+  // Constructor which initializes the controller
+  // Controller is a field of the stage (for clarity)
   public EggStage() {
     controller = new EggStageController(this);
     displayGui();
@@ -57,13 +59,10 @@ public class EggStage {
 
     drawing.setScript(script);
     scriptIndicator = String.format("[%s]", drawing.getScript().getName());
-    scriptIndicatorXPos = getCoordinateToCenter(scriptIndicator);
+    scriptIndicatorXPos = centerTextX(scriptIndicator);
   }
 
   // Determines the proper x coordinate to center some text
-  private int getCoordinateToCenter(String text) {
-    return SCREEN_WIDTH / 2 - Jaylib.MeasureText(text, FONT_SIZE) / 2;
-  }
 
   // The constructor which runs the main game loop
   // All the displaying of graphics happens here
@@ -82,7 +81,7 @@ public class EggStage {
      * Game Objects
      */
     initStageComponents();
-    scriptIndicatorXPos = getCoordinateToCenter(scriptIndicator);
+    scriptIndicatorXPos = centerTextX(scriptIndicator);
     // Selected]
     // Main game loop
     while (!exitWindow && !Jaylib.WindowShouldClose()) // Detect window close button or ESC key
@@ -113,10 +112,12 @@ public class EggStage {
         b.draw();
       }
 
+      Jaylib.DrawText(scriptIndicator, scriptIndicatorXPos, 60, FONT_SIZE, Jaylib.GRAY);
+
       // Display the user's drawing:
       drawing.draw();
 
-      Jaylib.DrawText(scriptIndicator, scriptIndicatorXPos, 60, FONT_SIZE, Jaylib.GRAY);
+      // Draw the info panels
 
       /*
        * End Drawing
@@ -127,31 +128,41 @@ public class EggStage {
     /*
      * De-Initialization
      */
-    Jaylib.CloseWindow(); // Close window and OpenGL context -> cleans resources as well
+    Jaylib.CloseWindow(); // Close window and OpenGL context
   }
 
+  /**
+   * @param pos The {@code}Raylib.Vector2 in stage pos (The Stage pos treats the center of the
+   *     screen as (0, 0))
+   * @return The converted coordinate from stage pos to screen pos (The screen pos treats the top
+   *     left corner of the screen as (0, 0))
+   */
   public static Raylib.Vector2 stageToScreenPos(Raylib.Vector2 pos) {
     return new Jaylib.Vector2(pos.x() + SCREEN_WIDTH / 2, pos.y() + SCREEN_HEIGHT / 2);
   }
 
-  public void setButtons(ArrayList<EggButton> buttons) {
-    this.buttons = buttons;
+  /**
+   * @param text The text to center
+   * @return The x-coordinate of the centered text
+   */
+  public static int centerTextX(String text) {
+    return centerX(Jaylib.MeasureText(text, FONT_SIZE));
   }
 
-  public String getScriptIndicator() {
-    return scriptIndicator;
+  /**
+   * @param w The width of the component
+   * @return The x-coordinate of the centered component (Along X-axis)
+   */
+  public static int centerX(int w) {
+    return SCREEN_WIDTH / 2 - w / 2;
   }
 
-  public void setScriptIndicator(String scriptIndicator) {
-    this.scriptIndicator = scriptIndicator;
-  }
-
-  public int getScriptIndicatorXPos() {
-    return scriptIndicatorXPos;
-  }
-
-  public void setScriptIndicatorXPos(int scriptIndicatorXPos) {
-    this.scriptIndicatorXPos = scriptIndicatorXPos;
+  /**
+   * @param h The height of the component
+   * @return The y-coordinate of the centered component (Along Y-axis)
+   */
+  public static int centerY(int h) {
+    return SCREEN_HEIGHT / 2 - h / 2;
   }
 
   public Drawing getDrawing() {
