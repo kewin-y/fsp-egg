@@ -25,6 +25,7 @@ public class EggButton extends EggComponent {
   }
 
   // Responsible for displaying the button
+  @Override
   public void draw() {
     Jaylib.DrawTextureV(
         texture,

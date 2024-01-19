@@ -13,14 +13,9 @@ import javax.swing.JTextArea;
 
 public class ErrorPanel extends JOptionPane {
 
-  // This class contains all the text GUi for the error panel
+  // This class contains all the text GUI for the error panel
   private class Info extends JPanel {
-    private List<EggError> errors;
-
-    //
     public Info(List<EggError> errors) {
-      this.errors = errors;
-
       /*
        * Setting the layout to a top-aligned GridBagLayout
        * The code to top-align the layout is from
@@ -74,7 +69,7 @@ public class ErrorPanel extends JOptionPane {
   public ErrorPanel(List<EggError> errors, String msg) {
     this.errors = errors;
     this.msg = msg;
-  }
+  } 
 
   // Display the JOptionPane
   public void show() {

@@ -3,4 +3,6 @@ pen_rotate 120
 pen_move 250
 pen_rotate 120
 pen_move 250
-pen_color
+pen_color blue
+pen_rotate 30
+pen_move 250

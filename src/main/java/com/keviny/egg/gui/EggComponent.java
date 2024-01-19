@@ -8,6 +8,8 @@ public abstract class EggComponent {
   private Raylib.Rectangle bounds;
   private boolean shouldDraw = true;
 
+  public abstract void draw();
+
   public Raylib.Rectangle getBounds() {
     return bounds;
   }

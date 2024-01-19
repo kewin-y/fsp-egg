@@ -17,13 +17,15 @@
  * */
 package com.keviny.egg;
 
-import com.keviny.egg.controller.EggController;
+import com.keviny.egg.controller.EggStageController;
+import com.keviny.egg.gui.EggStage;
+
 import java.io.IOException;
 
 // This is the main class that instantiates the contoller
 public class Egg {
   public static void main(String args[]) throws IOException {
-    new EggController();
+    new EggStage();
     return;
   }
 }

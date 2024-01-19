@@ -53,6 +53,7 @@ public class Drawing extends EggComponent {
   }
 
   // Executes the script and draws the image
+  @Override
   public void draw() {
     if (!isShouldDraw()) return;
 

@@ -1,6 +1,6 @@
 package com.keviny.egg.gui;
 
-import com.keviny.egg.controller.EggController;
+import com.keviny.egg.controller.EggStageController;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 import java.io.File;
@@ -23,10 +23,11 @@ public class EggStage {
   // Drawing -> the thing that the code makes
   private Drawing drawing;
 
-  private final EggController controller;
+  private final EggStageController controller;
 
-  public EggStage(EggController controller) {
-    this.controller = controller;
+  public EggStage() {
+    controller = new EggStageController(this);
+    displayGui();
   }
 
   // Creates the components of the stage

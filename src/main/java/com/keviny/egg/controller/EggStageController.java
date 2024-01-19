@@ -7,12 +7,11 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class EggController {
+public class EggStageController {
   EggStage stage;
 
-  public EggController() {
-    stage = new EggStage(this);
-    stage.displayGui();
+  public EggStageController(EggStage stage) {
+    this.stage = stage;
   }
 
   /*
@@ -48,9 +47,11 @@ public class EggController {
 
     if (ret == JFileChooser.APPROVE_OPTION) {
       stage.updateScript(fileChooser.getSelectedFile());
+      stage.getDrawing().setShouldDraw(false);
     }
   };
 
   // }}}
+
 
 }
