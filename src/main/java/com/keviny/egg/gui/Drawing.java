@@ -65,11 +65,11 @@ public class Drawing extends EggComponent {
       return;
     }
 
-    runTokens();
+    executeTokens();
   }
 
   // This method loops through the tokens and creates a drawing accordingly
-  private void runTokens() {
+  private void executeTokens() {
     int index = 0;
 
     resetPen();
@@ -80,7 +80,7 @@ public class Drawing extends EggComponent {
 
           Raylib.Color newColor = COLORS.get(tokens.get(index).getType());
           if (newColor == null) {
-            displayRuntimeError(index);
+            displayExecutionError(index);
             return;
           }
           penColor = newColor;
@@ -90,17 +90,18 @@ public class Drawing extends EggComponent {
           index++;
 
           if (tokens.get(index).getType() != TokenType.NUMBER) {
-            displayRuntimeError(index);
+            displayExecutionError(index);
             return;
           }
 
           // The magnitude of movement is the argument (next token)
           float mag = (float) tokens.get(index).getLiteral();
-          // Displace ment is calculated using direction * magnitude
-          Raylib.Vector2 displ = Jaylib.Vector2Scale(penDirection, mag);
+        
+          // Displacement is calculated using direction * magnitude
+          Raylib.Vector2 displacement = Jaylib.Vector2Scale(penDirection, mag);
 
           // Calculate new position and draw a line from old to new position
-          Raylib.Vector2 newPos = Jaylib.Vector2Add(penPosition, displ);
+          Raylib.Vector2 newPos = Jaylib.Vector2Add(penPosition, displacement);
           Jaylib.DrawLineEx(penPosition, newPos, 4, penColor);
           penPosition = newPos;
 
@@ -109,7 +110,7 @@ public class Drawing extends EggComponent {
         case PEN_ROTATE:
           index++;
           if (tokens.get(index).getType() != TokenType.NUMBER) {
-            System.out.println("Runtime Error!");
+            displayExecutionError(index);
             return;
           }
 
@@ -153,7 +154,7 @@ public class Drawing extends EggComponent {
    *
    * @param index The index of the erroneous token in the tokens field
    */
-  private void displayRuntimeError(int index) {
+  private void displayExecutionError(int index) {
     Token token;
 
     // Since we don't want to report the end of a file as an error
@@ -164,7 +165,7 @@ public class Drawing extends EggComponent {
     }
 
     EggError rerror = new EggError(token.getLine(), "Misplaced token", token.getLexeme());
-    displayError(Arrays.asList(new EggError[] {rerror}), "Runtime Error:");
+    displayError(Arrays.asList(new EggError[] {rerror}), "Execution Error(s):");
   }
 
   // Resets the pen to it's default settings
