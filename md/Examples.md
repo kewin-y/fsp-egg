@@ -1,6 +1,7 @@
 # Examples
 
-Draw a square: `square.egg`
+Draw a square: `square.egg`<br> <br>
+![Square](assets/square.png)
 
 ```
 pen_move 50
@@ -11,19 +12,18 @@ pen_move 50
 pen_rotate rotate 90
 pen_move 90
 ```
-![[Pasted image 20240119205252.png]]
-Draw a triangle: `triangle.egg`
+Draw a triangle: `triangle.egg`<br> <br>
+![Triangle](assets/triangle.png) 
 
 ```
-pen_move 250
+pen_move 50
 pen_rotate 120
-pen_move 250
+pen_move 50
 pen_rotate 120
-pen_move 250
+pen_move 50
 ```
-![[Pasted image 20240119205353.png]]
-Draw a rainbow: `rainbow.egg`
-
+Draw a rainbow: `rainbow.egg` <br> <br>
+![Rainbow](assets/rainbow.png)
 ```
 pen_move 10
 pen_color red
@@ -39,4 +39,4 @@ pen_move 10
 pen_color purple
 pen_move 10
 ```
-![[Pasted image 20240119205212.png]]
+

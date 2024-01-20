@@ -1,9 +1,8 @@
 package com.keviny.egg.gui;
 
 import com.raylib.Raylib;
-import com.raylib.Raylib.Rectangle;
 
-// Abstract class for components on Egg
+// Abstract class for components in Egg
 public abstract class EggComponent {
   private Raylib.Rectangle bounds;
   private boolean shouldDraw = true;

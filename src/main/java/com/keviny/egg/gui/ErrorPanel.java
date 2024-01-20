@@ -16,31 +16,6 @@ public class ErrorPanel extends JOptionPane {
   // This class contains all the text GUI for the error panel
   private class Info extends JPanel {
     public Info(List<EggError> errors) {
-      /*
-       * Setting the layout to a top-aligned GridBagLayout
-       * The code to top-align the layout is from
-       *
-       * https://stackoverflow.com/questions/23951882/how-to-align-the-elements-to-the
-       * -top-in-a-gridbaglayout
-       * I've used this code in my previous project
-       */
-
-      GridBagLayout gbl = new GridBagLayout();
-      setLayout(gbl);
-      gbl.columnWidths = new int[] {0, 0, 0, 0};
-      gbl.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-      gbl.columnWeights = new double[] {0.0, 0.0, 1.0, Double.MIN_VALUE};
-      gbl.rowWeights =
-          new double[] {
-            0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE
-          };
-
-      GridBagConstraints gbc = new GridBagConstraints();
-      gbc.insets = new Insets(10, 10, 10, 10);
-      gbc.gridx = 0;
-      gbc.fill = GridBagConstraints.HORIZONTAL;
-
-      setLayout(gbl);
       String errorText = "";
       for (EggError error : errors) {
         errorText += error.toString() + "\n";
@@ -51,9 +26,7 @@ public class ErrorPanel extends JOptionPane {
       errorTextArea.setColumns(43);
       errorTextArea.setLineWrap(true);
       errorTextArea.setWrapStyleWord(true);
-      // GUIUtils.setFontRenderingHints(nameTextArea);
-      gbc.gridy = 0;
-      add(errorTextArea, gbc);
+      add(errorTextArea);
     }
   }
 

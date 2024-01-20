@@ -1,6 +1,7 @@
 package com.keviny.egg.controller;
 
 import com.keviny.egg.gui.EggStage;
+import com.keviny.egg.gui.InfoFrame;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -18,6 +19,13 @@ public class EggStageController {
    * interface.
    * This allows me treat them like objects
    */
+  // {{{ Function that loads the how-to instruction: the user's script
+  public OnClick handleHowTo =
+      () -> {
+        new InfoFrame("Hi", InfoFrame.InfoType.HOW_TO);
+      };
+
+  // }}}
 
   // {{{ Function that pauses/plays the user's script
   public OnClick handlePlay =

@@ -43,12 +43,20 @@ public class EggStage {
     EggButton stopButton = new EggButton("assets/sprites/stop.png", 650, BUTTON_Y_BOT);
     stopButton.attachFunction(controller.handleStop);
 
-    EggButton loadNewButton = new EggButton("assets/sprites/load_new.png", 581, 20);
+    EggButton loadNewButton = new EggButton("assets/sprites/load_new.png", centerX(128), 15);
     loadNewButton.attachFunction(controller.handleLoadNew);
+
+    EggButton howToButton = new EggButton("assets/sprites/how_to_button.png", 20, 20);
+    howToButton.attachFunction(controller.handleHowTo);
+    EggButton learnButton = new EggButton("assets/sprites/learn_button.png", 20, 62);
+    EggButton examples = new EggButton("assets/sprites/examples_button.png", 20, 104);
 
     buttons.add(pausePlayButton);
     buttons.add(stopButton);
     buttons.add(loadNewButton);
+    buttons.add(howToButton);
+    buttons.add(learnButton);
+    buttons.add(examples);
   }
 
   // Change the drawing's script and update the indicators
@@ -110,7 +118,7 @@ public class EggStage {
         b.draw();
       }
 
-      Jaylib.DrawText(scriptIndicator, scriptIndicatorXPos, 40, FONT_SIZE, Jaylib.GRAY);
+      Jaylib.DrawText(scriptIndicator, scriptIndicatorXPos, 60, FONT_SIZE, Jaylib.GRAY);
 
       // Draw the info panels
 
