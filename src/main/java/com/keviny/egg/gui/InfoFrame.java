@@ -17,9 +17,9 @@ public class InfoFrame extends JFrame {
   }
 
   public InfoFrame(String title, InfoType type) {
-    setLayout(null);
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setTitle(title);
+
     ImageIcon instruction = new ImageIcon("assets/sprites/how_to.png");
     JLabel l = new JLabel(instruction);
     JPanel p = new JPanel();
