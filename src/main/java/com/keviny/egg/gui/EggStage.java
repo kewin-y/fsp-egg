@@ -48,15 +48,19 @@ public class EggStage {
 
     EggButton howToButton = new EggButton("assets/sprites/how_to_button.png", 20, 20);
     howToButton.attachFunction(controller.handleHowTo);
+    
     EggButton learnButton = new EggButton("assets/sprites/learn_button.png", 20, 62);
-    EggButton examples = new EggButton("assets/sprites/examples_button.png", 20, 104);
+    learnButton.attachFunction(controller.handleLearn);
+    
+    EggButton examplesButton = new EggButton("assets/sprites/examples_button.png", 20, 104);
+    examplesButton.attachFunction(controller.handleExamples);
 
     buttons.add(pausePlayButton);
     buttons.add(stopButton);
     buttons.add(loadNewButton);
     buttons.add(howToButton);
     buttons.add(learnButton);
-    buttons.add(examples);
+    buttons.add(examplesButton);
   }
 
   // Change the drawing's script and update the indicators
@@ -168,6 +172,7 @@ public class EggStage {
     return SCREEN_HEIGHT / 2 - h / 2;
   }
 
+  // Getters & setters
   public Drawing getDrawing() {
     return drawing;
   }

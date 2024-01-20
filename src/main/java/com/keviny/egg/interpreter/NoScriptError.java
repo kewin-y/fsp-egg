@@ -5,6 +5,8 @@ public class NoScriptError extends EggError {
   public NoScriptError(int line, String message, String what) {
     super(line, message, what);
   }
+
+  // Overloaded constructor so no arguments needed
   public NoScriptError() {
     super(-1, "", "");
   }

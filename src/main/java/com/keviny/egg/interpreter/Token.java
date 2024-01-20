@@ -3,6 +3,7 @@ package com.keviny.egg.interpreter;
 // This class represents a token
 // A simple construct that the computer can work with to run the language
 // No significant methods
+// Source: https://craftinginterpreters.com/
 public class Token {
   private final TokenType type;
   private final String lexeme; // Raw substring that has actual meaning

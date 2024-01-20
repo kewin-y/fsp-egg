@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+// Holds functions related to buttons
 public class EggStageController {
   EggStage stage;
 
@@ -19,13 +20,19 @@ public class EggStageController {
    * interface.
    * This allows me treat them like objects
    */
-  // {{{ Function that loads the how-to instruction: the user's script
-  public OnClick handleHowTo =
-      () -> {
-        new InfoFrame("Hi", InfoFrame.InfoType.HOW_TO);
-      };
 
-  // }}}
+  /*
+   * Instruction handling:
+   * Cannot pass in parameters since lambda function has to match it's
+   * signature
+   * (I defined the functional interface to have no parameters for simplicity)
+   */
+
+  public OnClick handleHowTo = () -> new InfoFrame("How-To", InfoFrame.InfoType.HOW_TO);
+  public OnClick handleLearn = () -> new InfoFrame("Learn", InfoFrame.InfoType.LEARN);
+  public OnClick handleExamples = () -> new InfoFrame("Examples", InfoFrame.InfoType.EXAMPLES);
+
+  public OnClick handleStop = () -> stage.getDrawing().setShouldDraw(false);
 
   // {{{ Function that pauses/plays the user's script
   public OnClick handlePlay =
@@ -36,13 +43,6 @@ public class EggStageController {
         stage.getDrawing().setShouldDraw(true);
       };
 
-  // }}}
-
-  // {{{ Function that stops the execution of the user's script
-  public OnClick handleStop =
-      () -> {
-        stage.getDrawing().setShouldDraw(false);
-      };
   // }}}
 
   // {{{ Function that displays a file picker for the user

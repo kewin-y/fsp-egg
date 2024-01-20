@@ -3,7 +3,9 @@ package com.keviny.egg.interpreter;
 import java.util.HashMap;
 import java.util.Map;
 
-// This class the scanner (lexer) of the small languageo of Egg
+// This class the scanner (lexer) of the small language of Egg
+// Source: https://craftinginterpreters.com/
+// Heavily modified for my needs
 public class EggScanner {
   private final String source;
   private final TokensWrapper tokensWrapper = new TokensWrapper();
@@ -151,6 +153,7 @@ public class EggScanner {
   /**
    * Method to check whether or not a character is a number Since java's builtin method checks for
    * strange (non-arabic) digits
+   *
    * @param c the character to check
    */
   private boolean isDigit(char c) {

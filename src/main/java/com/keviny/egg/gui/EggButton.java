@@ -1,10 +1,12 @@
-// Sourced from https://www.raylib.com/examples.html
 package com.keviny.egg.gui;
 
 import com.keviny.egg.controller.OnClick;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
+// A class to represent buttons
+// Sourced from https://www.raylib.com/examples.html
+// Original language is in C but I have modified it for my needs
 public class EggButton extends EggComponent {
   private static final Raylib.Color DEFAULT = Jaylib.WHITE;
   private static final Raylib.Color HOVERED = new Jaylib.Color(255, 255, 255, 180);
@@ -66,6 +68,7 @@ public class EggButton extends EggComponent {
     this.onClick = onClickFunction;
   }
 
+  // Getters & setters
   public Raylib.Texture getTexture() {
     return texture;
   }

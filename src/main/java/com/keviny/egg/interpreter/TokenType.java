@@ -1,6 +1,7 @@
 package com.keviny.egg.interpreter;
 
 // This enum represents the different tokens present in Egg
+// Source: https://craftinginterpreters.com/
 public enum TokenType {
   NUMBER,
 

@@ -2,9 +2,6 @@ package com.keviny.egg.gui;
 
 import com.keviny.egg.interpreter.EggError;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,7 +16,6 @@ public class ErrorPanel extends JOptionPane {
       String errorText = "";
       for (EggError error : errors) {
         errorText += error.toString() + "\n";
-        System.out.println(error);
       }
       JTextArea errorTextArea = new JTextArea(errorText);
 
@@ -42,7 +38,7 @@ public class ErrorPanel extends JOptionPane {
   public ErrorPanel(List<EggError> errors, String msg) {
     this.errors = errors;
     this.msg = msg;
-  } 
+  }
 
   // Display the JOptionPane
   public void show() {

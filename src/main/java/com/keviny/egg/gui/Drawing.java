@@ -77,17 +77,23 @@ public class Drawing extends EggComponent {
     resetPen();
     while (tokens.get(index).getType() != TokenType.EOF) {
       switch (tokens.get(index).getType()) {
+          // Color
         case PEN_COLOR:
           index++;
 
           Raylib.Color newColor = COLORS.get(tokens.get(index).getType());
+          // Give an error if the next token is not a color
           if (newColor == null) {
             displayExecutionError(index);
             return;
           }
+
+          // Change color and increment
+          // Pattern repeats for other 2-part commands like move, rotate, etc.
           penColor = newColor;
           index++;
           break;
+          // Move
         case PEN_MOVE:
           index++;
 
@@ -98,7 +104,7 @@ public class Drawing extends EggComponent {
 
           // The magnitude of movement is the argument (next token)
           float mag = (float) tokens.get(index).getLiteral();
-        
+
           // Displacement is calculated using direction * magnitude
           Raylib.Vector2 displacement = Jaylib.Vector2Scale(penDirection, mag);
 
@@ -109,6 +115,7 @@ public class Drawing extends EggComponent {
 
           index++;
           break;
+          // Rotate
         case PEN_ROTATE:
           index++;
           if (tokens.get(index).getType() != TokenType.NUMBER) {
@@ -124,10 +131,12 @@ public class Drawing extends EggComponent {
           index++;
           break;
         case PEN_UP:
+          // Set alpha to zero -> makes invisible
           penColor.a((byte) 0);
           index++;
           break;
         case PEN_DOWN:
+          // Set alpha to 255 -> makes opaque again
           penColor.a((byte) 255);
           index++;
           break;
@@ -188,7 +197,7 @@ public class Drawing extends EggComponent {
     try {
       setTokens();
     } catch (Exception e) {
-      System.err.println("Could not set script due to: " + e.getMessage());
+      return;
     }
   }
 

@@ -12,6 +12,7 @@ public class EggError {
     this.what = what;
   }
 
+  // Getters & setters
   public int getLine() {
     return line;
   }

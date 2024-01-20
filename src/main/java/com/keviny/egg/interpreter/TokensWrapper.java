@@ -7,7 +7,8 @@ import java.util.List;
 public class TokensWrapper {
   private List<Token> tokens = new ArrayList<>();
   private List<EggError> errors = new ArrayList<>();
-
+  
+  // Getters & setters
   public List<Token> getTokens() {
     return tokens;
   }
