@@ -12,14 +12,15 @@
  * EGG (Easy Graphics g)
  *
  * === Concerns: ===
- * Does not work on musl due to glibc being required for JavaCPP bindings of Jaylib 
+ * Does not work on musl due to glibc being required for JavaCPP bindings of Jaylib
  * No text editor -> user must write their own script in notepad, or some other external software
+ *
+ * == Notes ==
+ * User can draw out of bounds and underneath some buttons: Mostly an intended feature: to give users more freedom
  * */
 package com.keviny.egg;
 
-import com.keviny.egg.controller.EggStageController;
 import com.keviny.egg.gui.EggStage;
-
 import java.io.IOException;
 
 // This is the main class that instantiates the contoller

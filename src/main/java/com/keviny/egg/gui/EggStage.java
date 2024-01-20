@@ -43,7 +43,7 @@ public class EggStage {
     EggButton stopButton = new EggButton("assets/sprites/stop.png", 650, BUTTON_Y_BOT);
     stopButton.attachFunction(controller.handleStop);
 
-    EggButton loadNewButton = new EggButton("assets/sprites/load_new.png", 581, 40);
+    EggButton loadNewButton = new EggButton("assets/sprites/load_new.png", 581, 20);
     loadNewButton.attachFunction(controller.handleLoadNew);
 
     buttons.add(pausePlayButton);
@@ -72,7 +72,6 @@ public class EggStage {
     /*
      * Initialization
      */
-    Jaylib.SetConfigFlags(Jaylib.FLAG_WINDOW_UNDECORATED);
     Jaylib.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Egg - Learn to Code");
     boolean exitWindow = false;
     Jaylib.SetTargetFPS(60);
@@ -103,19 +102,15 @@ public class EggStage {
 
       Jaylib.ClearBackground(Jaylib.RAYWHITE);
 
-      // Window decoration
-      exitWindow =
-          Jaylib.GuiWindowBox(new Jaylib.Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), "#198# Egg");
+      // Display the user's drawing:
+      drawing.draw();
 
       // Draw buttons for the stage
       for (EggButton b : buttons) {
         b.draw();
       }
 
-      Jaylib.DrawText(scriptIndicator, scriptIndicatorXPos, 60, FONT_SIZE, Jaylib.GRAY);
-
-      // Display the user's drawing:
-      drawing.draw();
+      Jaylib.DrawText(scriptIndicator, scriptIndicatorXPos, 40, FONT_SIZE, Jaylib.GRAY);
 
       // Draw the info panels
 
@@ -135,7 +130,7 @@ public class EggStage {
    * @param pos The {@code}Raylib.Vector2 in stage pos (The Stage pos treats the center of the
    *     screen as (0, 0))
    * @return The converted coordinate from stage pos to screen pos (The screen pos treats the top
-   *     left corner of the screen as (0, 0))
+        left corner of the screen as (0, 0))
    */
   public static Raylib.Vector2 stageToScreenPos(Raylib.Vector2 pos) {
     return new Jaylib.Vector2(pos.x() + SCREEN_WIDTH / 2, pos.y() + SCREEN_HEIGHT / 2);

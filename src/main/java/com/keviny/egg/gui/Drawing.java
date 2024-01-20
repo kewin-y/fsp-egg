@@ -44,6 +44,7 @@ public class Drawing extends EggComponent {
     COLORS.put(TokenType.GREEN, Jaylib.GREEN);
     COLORS.put(TokenType.BLUE, Jaylib.BLUE);
     COLORS.put(TokenType.PURPLE, Jaylib.PURPLE);
+    COLORS.put(TokenType.BLACK, Jaylib.BLACK);
   }
 
   // Constructor sets the stage field

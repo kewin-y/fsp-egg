@@ -18,6 +18,7 @@ public enum TokenType {
   GREEN,
   BLUE,
   PURPLE,
+  BLACK,
 
   // Means end of file
   EOF;

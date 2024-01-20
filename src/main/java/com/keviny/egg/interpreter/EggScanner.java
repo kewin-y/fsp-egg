@@ -31,6 +31,7 @@ public class EggScanner {
     KEYWORDS.put("green", TokenType.GREEN);
     KEYWORDS.put("blue", TokenType.BLUE);
     KEYWORDS.put("purple", TokenType.PURPLE);
+    KEYWORDS.put("black", TokenType.BLACK);
   }
 
   // Constructor
