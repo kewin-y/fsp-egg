@@ -1,6 +1,8 @@
 # ICS4U1 FSP - Egg (Easy Graphics)
 
 - Interpreter built by following [_Crafting Interpreters_](https://craftinginterpreters.com/) by Robert Nystrom
+- To run, make sure Maven and JDK (at least 21) are installed. Execute `mvn clean install` and `mvn exec:java`
+    - This wasn't meant to be packaged; only to be ran in an IDE (It was for a high school course).  
 
 ```java
 /*
@@ -25,11 +27,6 @@
  * Pen color
  * Controlling whether or not pen draws (Putting pen up or down)
  * Dynamic & reloadable scripts
- * Markdown PNG instructions
- *
- * == Things to note ==
- * Raw markdown files are available in the "md" directory
- * Examples are available in the "examples" directory
  *
  * == Major Skills ==
  * Raylib -> Infinite Game loop, medium-level GUI design
@@ -45,6 +42,5 @@
  *
  * == Notes ==
  * User can draw out of bounds and underneath some buttons: Mostly an intended feature to give users more freedom
- *
  * */
 ```
